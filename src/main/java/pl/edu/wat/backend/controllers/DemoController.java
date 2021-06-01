@@ -23,6 +23,11 @@ public class DemoController {
         this.demoService = demoService;
     }
 
+    @GetMapping("/")
+    String hello() {
+        return "This tutorial is the best. All hail the great Kristijan.";
+    }
+
     @GetMapping("/api/demo")
     public ResponseEntity<List<DemoResponse>> getDemos() {
         List<DemoResponse> demos = demoService.getAllDemos();
