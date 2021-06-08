@@ -25,7 +25,7 @@ public class DemoController {
 
     @GetMapping("/")
     String hello() {
-        return "This tutorial is the best. All hail the great Kristijan.";
+        return "lolz.";
     }
 
     @GetMapping("/api/demo")
