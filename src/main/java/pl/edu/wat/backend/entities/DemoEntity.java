@@ -1,10 +1,12 @@
 package pl.edu.wat.backend.entities;
 
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "demo")
+@Data
+@Table(name="demo_table")
 public class DemoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
