@@ -18,7 +18,7 @@ public class UserService {
 
     public void addNewUser(UserImpl userImpl) {
         Optional<UserImpl> foundByEmail = userRepository.findUserByEmail(userImpl.getEmail());
-        Optional<UserImpl> foundByUsername = userRepository.findUserByEmail(userImpl.getUsername());
+        Optional<UserImpl> foundByUsername = userRepository.findUserByUsername(userImpl.getUsername());
 
         if (foundByEmail.isPresent())
             throw new IllegalStateException("that email is taken");

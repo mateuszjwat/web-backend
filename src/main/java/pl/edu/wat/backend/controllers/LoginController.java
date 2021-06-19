@@ -56,6 +56,10 @@ public class LoginController {
 
     @PostMapping("/signIn")
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody LoginForm loginRequest) {
+
+        System.out.println(loginRequest.getUsername());
+        System.out.println(loginRequest.getPassword());
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -64,18 +68,17 @@ public class LoginController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-
     @PostMapping("/signUp")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
+    public ResponseEntity<?> registerUser(@RequestBody SignUpForm signUpRequest) {
         // Create new userImpl's account
+
         UserImpl userImpl = new UserImpl(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
 
         try {
             userService.addNewUser(userImpl);
         } catch (IllegalStateException e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(e.toString());
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(400).body("lol");
         }
 
         return ResponseEntity.ok("UserImpl registered successfully!");

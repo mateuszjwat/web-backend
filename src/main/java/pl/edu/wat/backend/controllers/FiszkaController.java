@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.backend.dtos.FiszkaSetDTO;
+import pl.edu.wat.backend.dtos.SignUpForm;
 import pl.edu.wat.backend.entities.FiszkaCard;
 import pl.edu.wat.backend.entities.FiszkaSet;
 import pl.edu.wat.backend.entities.UserImpl;
@@ -24,6 +25,29 @@ public class FiszkaController {
 
     @Autowired
     UserService userService;
+
+    @GetMapping("/test")
+    public ResponseEntity<?> test() {
+
+        return ResponseEntity.ok("test went successfully!");
+    }
+
+//    @GetMapping("/getFiszka")
+//    public ResponseEntity<?> getFiszkaSet(@RequestParam long id) {
+//        try {
+//            return ResponseEntity.ok(fiszkaService.getFiszkaSet(id));
+//        } catch (NullPointerException e){
+//            return ResponseEntity.status(404).body("fiszki nie znaleziono");
+//        }
+//    }
+
+    @DeleteMapping("/deleteSet")
+    public ResponseEntity<?> deleteFiszkaSet(@RequestParam long id) {
+        System.out.println(id);
+        fiszkaService.deleteSet(id);
+        return ResponseEntity.ok("fiszka deleted");
+
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFiszkaSet(@RequestBody FiszkaSetDTO fiszkaDTO) {

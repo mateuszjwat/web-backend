@@ -3,10 +3,9 @@ package pl.edu.wat.backend.dtos;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
-import java.time.LocalDate;
 
 public class SignUpForm {
-    @NotBlank
+    @NotBlank(message = "lol")
     @Size(max = 50)
     @Email
     private String email;
