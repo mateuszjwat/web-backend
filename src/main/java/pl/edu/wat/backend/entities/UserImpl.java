@@ -28,6 +28,10 @@ public class UserImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @OneToMany(cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Set<StatisticCard> statistics = new HashSet<>();
+
     @OneToMany(mappedBy = "myUser", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<FiszkaSet> myFiszkaSets = new HashSet<>();
@@ -35,7 +39,6 @@ public class UserImpl implements UserDetails {
     public UserImpl(String username,
                     String email,
                     String password) {
-        this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -53,6 +56,18 @@ public class UserImpl implements UserDetails {
     public void addFiszkaSet(FiszkaSet fiszkaSet) {
         myFiszkaSets.add(fiszkaSet);
         fiszkaSet.setMyUser(this);
+    }
+
+    public void addStatistic(StatisticCard statisticCard){
+        statistics.add(statisticCard);
+    }
+
+    public FiszkaSet getFiszkaSetFromId(long id){
+        for(FiszkaSet set: myFiszkaSets){
+            if(set.getId() == id)
+                return set;
+        }
+        throw new NullPointerException();
     }
 
     @Override

@@ -23,6 +23,9 @@ public class FiszkaSet {
     @Transient
     private Integer fiszkiCount;
 
+    private Integer lastGood = 0;
+    private Integer lastWrong = 0;
+
     @OneToMany(mappedBy = "fiszkaSet", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<FiszkaCard> fiszkaCards = new HashSet<>();
