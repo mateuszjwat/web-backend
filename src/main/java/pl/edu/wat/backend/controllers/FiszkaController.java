@@ -61,6 +61,23 @@ public class FiszkaController {
         return ResponseEntity.ok("fiszka made public");
     }
 
+    @PostMapping("/unPublic")
+    public ResponseEntity<?> unPublicFiszkaSet(@RequestParam long id) {
+        FiszkaSet set = fiszkaService.getFiszkaSet(id);
+        if(!userService.getMe().getMyFiszkaSets().contains(set))
+            return ResponseEntity.status(400).body("fiszka not mine");
+
+        List<PublicFiszkaSet> all = publicFiszkaSetRepository.findAll();
+        for(PublicFiszkaSet pub: all){
+            if(pub.getTemplate_id() == id) {
+                publicFiszkaSetRepository.delete(pub);
+                return ResponseEntity.ok("fiszka made private");
+            }
+        }
+
+        return ResponseEntity.ok("fiszka already not public");
+    }
+
     @GetMapping("/public")
     public ResponseEntity<?> getPublic() {
         return ResponseEntity.ok(publicFiszkaSetRepository.findAll());
@@ -69,6 +86,7 @@ public class FiszkaController {
     @DeleteMapping("/deleteSet")
     public ResponseEntity<?> deleteFiszkaSet(@RequestParam long id) {
         System.out.println(id);
+        unPublicFiszkaSet(id);
         fiszkaService.deleteSet(id);
         return ResponseEntity.ok("fiszka deleted");
     }
