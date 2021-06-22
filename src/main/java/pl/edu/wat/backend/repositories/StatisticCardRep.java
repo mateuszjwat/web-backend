@@ -8,9 +8,6 @@ import pl.edu.wat.backend.entities.UserImpl;
 
 import java.util.Optional;
 
-public interface StatisticCardRep  extends JpaRepository<StatisticCard, Long> {
+public interface StatisticCardRep extends JpaRepository<StatisticCard, Long> {
 
-    // "Student" is Student class
-    @Query("SELECT u FROM StatisticCard u WHERE u.parentId = ?1")
-    Optional<StatisticCard> findStatisticByParentId(long id);
 }

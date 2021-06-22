@@ -58,16 +58,24 @@ public class UserImpl implements UserDetails {
         fiszkaSet.setMyUser(this);
     }
 
-    public void addStatistic(StatisticCard statisticCard){
+    public void addStatistic(StatisticCard statisticCard) {
         statistics.add(statisticCard);
     }
 
-    public FiszkaSet getFiszkaSetFromId(long id){
-        for(FiszkaSet set: myFiszkaSets){
-            if(set.getId() == id)
+    public FiszkaSet getFiszkaSetFromId(long id) {
+        for (FiszkaSet set : myFiszkaSets) {
+            if (set.getId() == id)
                 return set;
         }
         throw new NullPointerException();
+    }
+
+    public StatisticCard getStatisticByParentId(long id) {
+        for (StatisticCard card : statistics) {
+            if (card.getParentId() == id)
+                return card;
+        }
+        return null;
     }
 
     @Override

@@ -25,9 +25,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    StatisticCardRep statisticCardRep;
-
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile() {
         return ResponseEntity.ok(userService.getMe());
@@ -35,7 +32,7 @@ public class UserController {
 
     @PostMapping("/postStatistic")
     public ResponseEntity<?> postStatistics(@RequestBody StatisticDTO dto) {
-        Optional<StatisticCard> card = statisticCardRep.findStatisticByParentId(dto.getSetId());
+        Optional<StatisticCard> card = userService.findStatisticByParentId(dto.getSetId());
         StatisticCard sCard;
         if(card.isPresent()){
             sCard = card.get();

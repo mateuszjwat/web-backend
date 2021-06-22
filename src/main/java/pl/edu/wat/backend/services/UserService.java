@@ -2,6 +2,7 @@ package pl.edu.wat.backend.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.edu.wat.backend.entities.StatisticCard;
 import pl.edu.wat.backend.entities.UserImpl;
 import pl.edu.wat.backend.repositories.FiszkaCardRepository;
 import pl.edu.wat.backend.repositories.FiszkaSetRepository;
@@ -15,6 +16,10 @@ import static pl.edu.wat.backend.controllers.LoginController.me;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+
+    public Optional<StatisticCard> findStatisticByParentId(long parentId) {
+        return Optional.ofNullable(getMe().getStatisticByParentId(parentId));
+    }
 
     public void addNewUser(UserImpl userImpl) {
         Optional<UserImpl> foundByEmail = userRepository.findUserByEmail(userImpl.getEmail());
