@@ -12,8 +12,6 @@ import pl.edu.wat.backend.JWT.JwtUtils;
 import pl.edu.wat.backend.dtos.JwtResponse;
 import pl.edu.wat.backend.dtos.LoginForm;
 import pl.edu.wat.backend.dtos.SignUpForm;
-import pl.edu.wat.backend.entities.FiszkaCard;
-import pl.edu.wat.backend.entities.FiszkaSet;
 import pl.edu.wat.backend.entities.UserImpl;
 import pl.edu.wat.backend.services.UserService;
 
