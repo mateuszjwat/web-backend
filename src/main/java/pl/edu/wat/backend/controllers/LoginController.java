@@ -41,17 +41,6 @@ public class LoginController {
         return (UserImpl) authentication.getPrincipal();
     }
 
-    @PostMapping("/signInTest")
-    public ResponseEntity<?> signInTest(HttpServletResponse response) throws Exception {
-        //test token
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken("Mariam", "123"));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtUtils.generateJwtToken(authentication);
-
-        return ResponseEntity.ok(token);
-    }
-
     @PostMapping("/signIn")
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody LoginForm loginRequest) {
 
@@ -67,7 +56,7 @@ public class LoginController {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpForm signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
         // Create new userImpl's account
 
         UserImpl userImpl = new UserImpl(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
