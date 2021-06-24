@@ -13,6 +13,7 @@ import pl.edu.wat.backend.repositories.FiszkaSetRepository;
 import pl.edu.wat.backend.repositories.StatisticCardRep;
 import pl.edu.wat.backend.services.UserService;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 
@@ -56,7 +57,7 @@ public class UserController {
     }
 
     @PutMapping("/changePassword")
-    public ResponseEntity<?> updatePassword(@RequestBody PasswordChangeDTO dto) {
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody PasswordChangeDTO dto) {
         UserImpl user = userService.getMe();
         user.setPassword(encoder.encode(dto.getPassword()));
         userService.save(user);
