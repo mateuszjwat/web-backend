@@ -70,9 +70,9 @@ public class UserImpl implements UserDetails {
         throw new NullPointerException();
     }
 
-    public StatisticCard getStatisticByParentId(long id) {
+    public StatisticCard getStatisticById(long id) {
         for (StatisticCard card : statistics) {
-            if (card.getParentId() == id)
+            if (card.getCardId() == id)
                 return card;
         }
         return null;

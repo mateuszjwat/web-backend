@@ -38,21 +38,13 @@ public class FiszkaController {
         return ResponseEntity.ok("test went successfully!");
     }
 
-//    @GetMapping("/getFiszka")
-//    public ResponseEntity<?> getFiszkaSet(@RequestParam long id) {
-//        try {
-//            return ResponseEntity.ok(fiszkaService.getFiszkaSet(id));
-//        } catch (NullPointerException e){
-//            return ResponseEntity.status(404).body("fiszki nie znaleziono");
-//        }
-//    }
 
     @PostMapping("/makePublic")
     public ResponseEntity<?> makePublicFiszkaSet(@RequestParam long id) {
         FiszkaSet set = fiszkaService.getFiszkaSet(id);
         List<PublicFiszkaSet> all = publicFiszkaSetRepository.findAll();
-        for(PublicFiszkaSet pub: all){
-            if(pub.getTemplate_id() == id)
+        for (PublicFiszkaSet pub : all) {
+            if (pub.getTemplate_id() == id)
                 return ResponseEntity.ok("fiszka already made public");
         }
 
@@ -61,15 +53,20 @@ public class FiszkaController {
         return ResponseEntity.ok("fiszka made public");
     }
 
+    private void unPublicFromStatistics(long cardId) {
+        fiszkaService.deleteStatisticCard(cardId);
+    }
+
     @PostMapping("/unPublic")
     public ResponseEntity<?> unPublicFiszkaSet(@RequestParam long id) {
         FiszkaSet set = fiszkaService.getFiszkaSet(id);
-        if(!userService.getMe().getMyFiszkaSets().contains(set))
+        if (!userService.getMe().getMyFiszkaSets().contains(set))
             return ResponseEntity.status(400).body("fiszka not mine");
 
         List<PublicFiszkaSet> all = publicFiszkaSetRepository.findAll();
-        for(PublicFiszkaSet pub: all){
-            if(pub.getTemplate_id() == id) {
+        for (PublicFiszkaSet pub : all) {
+            if (pub.getTemplate_id() == id) {
+                unPublicFromStatistics(pub.getId());
                 publicFiszkaSetRepository.delete(pub);
                 return ResponseEntity.ok("fiszka made private");
             }
@@ -85,7 +82,6 @@ public class FiszkaController {
 
     @DeleteMapping("/deleteSet")
     public ResponseEntity<?> deleteFiszkaSet(@RequestParam long id) {
-        System.out.println(id);
         unPublicFiszkaSet(id);
         fiszkaService.deleteSet(id);
         return ResponseEntity.ok("fiszka deleted");

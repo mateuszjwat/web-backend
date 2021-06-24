@@ -8,7 +8,9 @@ import pl.edu.wat.backend.repositories.FiszkaCardRepository;
 import pl.edu.wat.backend.repositories.FiszkaSetRepository;
 import pl.edu.wat.backend.repositories.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static pl.edu.wat.backend.controllers.LoginController.me;
 
@@ -17,8 +19,12 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public Optional<StatisticCard> findStatisticByParentId(long parentId) {
-        return Optional.ofNullable(getMe().getStatisticByParentId(parentId));
+    public StatisticCard findStatisticById(long setId) {
+        return getMe().getStatisticById(setId);
+    }
+
+    public List<UserImpl> findAll() {
+        return userRepository.findAll();
     }
 
     public void addNewUser(UserImpl userImpl) {

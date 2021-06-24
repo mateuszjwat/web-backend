@@ -32,19 +32,19 @@ public class UserController {
 
     @PostMapping("/postStatistic")
     public ResponseEntity<?> postStatistics(@RequestBody StatisticDTO dto) {
-        Optional<StatisticCard> card = userService.findStatisticByParentId(dto.getSetId());
+        StatisticCard card = userService.findStatisticById(dto.getSetId());
         StatisticCard sCard;
-        if(card.isPresent()){
-            sCard = card.get();
-        } else{
+        if (card != null) {
+            sCard = card;
+        } else {
             sCard = new StatisticCard();
-            sCard.setParentId(dto.getSetId());
+            userService.getMe().addStatistic(sCard);
+            sCard.setCardId(dto.getSetId());
             sCard.setSetName(dto.getSetName());
         }
         sCard.setGoodAns(dto.getGoodAns());
         sCard.setWrongAns(dto.getWrongAns());
 
-        userService.getMe().addStatistic(sCard);
         userService.save(userService.getMe());
 
         return ResponseEntity.ok("ok");
