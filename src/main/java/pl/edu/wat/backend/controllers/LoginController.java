@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.wat.backend.JWT.JwtUtils;
 import pl.edu.wat.backend.dtos.JwtResponse;
 import pl.edu.wat.backend.dtos.LoginForm;
+import pl.edu.wat.backend.dtos.PasswordChangeDTO;
 import pl.edu.wat.backend.dtos.SignUpForm;
 import pl.edu.wat.backend.entities.UserImpl;
 import pl.edu.wat.backend.services.UserService;
@@ -53,6 +54,14 @@ public class LoginController {
         String token = jwtUtils.generateJwtToken(authentication);
 
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody PasswordChangeDTO dto) {
+        UserImpl user = userService.getMe();
+        user.setPassword(encoder.encode(dto.getPassword()));
+        userService.save(user);
+        return ResponseEntity.ok("ok");
     }
 
     @PostMapping("/signUp")

@@ -56,13 +56,6 @@ public class UserController {
         return ResponseEntity.ok("ok");
     }
 
-    @PutMapping("/changePassword")
-    public ResponseEntity<?> updatePassword(@Valid @RequestBody PasswordChangeDTO dto) {
-        UserImpl user = userService.getMe();
-        user.setPassword(encoder.encode(dto.getPassword()));
-        userService.save(user);
-        return ResponseEntity.ok("ok");
-    }
 
     @PostMapping("/updatePrivate")
     public ResponseEntity<?> updatePrivate(@RequestBody StatisticDTO dto) {
