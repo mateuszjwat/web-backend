@@ -2,7 +2,9 @@ package pl.edu.wat.backend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.wat.backend.dtos.PasswordChangeDTO;
 import pl.edu.wat.backend.dtos.StatisticDTO;
 import pl.edu.wat.backend.entities.FiszkaSet;
 import pl.edu.wat.backend.entities.StatisticCard;
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     FiszkaSetRepository fiszkaSetRepository;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     @Autowired
     UserService userService;
@@ -47,6 +52,14 @@ public class UserController {
 
         userService.save(userService.getMe());
 
+        return ResponseEntity.ok("ok");
+    }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<?> updatePassword(@RequestBody PasswordChangeDTO dto) {
+        UserImpl user = userService.getMe();
+        user.setPassword(encoder.encode(dto.getPassword()));
+        userService.save(user);
         return ResponseEntity.ok("ok");
     }
 
